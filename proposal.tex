@@ -1,0 +1,59 @@
+\documentclass{article}
+
+\usepackage{amsmath,amsthm,amssymb,bm}
+
+\title{Bayesian Marked Spatial Point Process with Applications to
+  Professional Basketball \\
+\large Project Proposal}
+\author{Jieying Jiao, Guanyu Hu}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+Basketball data records the shoting data for each basketball
+player. This includes the shoting location and time information, and
+indicator showing made or miss. Previous studies focused on modeling
+the location using spatial point process. Here we want to consider the 
+accuracy of shot, i.e, whether this shot is made or miss. So we decide
+to use marked spatial point process.
+
+
+Possion process is a widely used parametric distribution for a finite
+set of count variable. We use it to model the location part of shot. A
+poisson process $\bm{Y} = (y(s_1),...,y(s_n))$ is a random countable subset
+on $\mathcal{B} \subseteq \mathcal{R}^2$, where $s_i \in \mathcal{B},
+i=1,\cdots,n$. Then for any areal $A\subseteq\mathcal{B}$, we define
+the counting process $N_{\bm{Y}}(A)=\sum_{i=1}^n 1(s_i\in A)$. If the
+poisson process $\bm{Y}$ has intensity function $\lambda(\bm{s})$,
+then $N_{\bm{Y}}(A)\sim Poi(\lambda(A))$, where
+$\lambda(A)=\int_A\lambda(s)ds$. Then the log-likelihood function on
+$A$ is 	$l=\sum_{i=1}^n \text{log}\lambda(s_i)-\int_A \lambda(s)
+ds$. Usually, we often has following regression form for the spatially
+varying intensity:
+$\lambda(s_i)=\lambda_0\exp(\bm{\beta}\bm{X_1}(s_i))$, where $\lambda_0$
+is the baseline of intensity function, $\bm{\beta}$ is regression
+coefficient, and $\bm{X_1}(s_i)$ is spatially varying covariates. 
+
+
+For the marks part, we have binary variable, i.e, made or miss. So we
+decide to use logistic regression to model marks, i.e, $m(s) \sim
+Ber(p(s))$, $logit(p(s))=\alpha_0\lambda(s)+\bm{\alpha}\bm{X_2}(s)$,
+where $\alpha_0, \bm{\alpha}$ are regression coefficients,
+$\bm{X_2}(s_i)$ is spatially varying covariates. This is called
+intensity dependent model.
+
+Then we have the joint model likelihood for marked point process:
+$$L =\prod_{i=1}^n p(m(s_i)|\lambda(s_i))\times
+                \prod_{i=1}^n \lambda(s_i)\times \exp\left(-\int_A
+                  \lambda(s)ds\right)$$
+The prior distribution can be as follow: $\lambda_0 \sim
+\text{G}(a_1,b_1), \bm{\beta} \sim \text{MVN}(0,\sigma^2I), \sigma^2
+\sim \text{IG}(a_2,b_2), \bm{\alpha} \sim \text{MVN}(0,\delta^2I),
+\tau^2 \sim \text{IG}(a_3,b_3), \delta^2 \sim \text{IG}(a_4,b_4).$
+
+
+We also plan to conduct Bayesian model selection for real data and
+simulation study.
+\end{document}
+
